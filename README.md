@@ -138,10 +138,3 @@ Ved en databasefejl sender backend **500** og en kort fejlbesked. Den sender ikk
 - `test-stats.js` kontrollerer svarene fra API'et.
 - Frontendmappen indeholder `Dashboard.html`, `Dashboard.js` og `poke.css`.
 
-## Det skal gruppen afklare
-
-Marcus bør dele en kopi af grunddatabasen, så alle har de samme tabeller og data. Aftal også, at begge typer tæller med. Dashboardet kræver ingen nye tabeller.
-
-Den lokale database mangler liga-tabellerne. Der er også en forskel mellem frontendens søgefiltre og backendens filterendpoints. Det hører til gruppens øvrige arbejde og er ikke ændret her.
-
-Ændringer i denne mappe committes på `backend` og pushes til `origin/backend`. Frontend ændres og committes separat på `Frontend`.
