@@ -10,7 +10,7 @@ JavaScript henter tallene fra backend med `fetch()`. Backend bruger SQL til at h
 
 ## Databasen
 
-Vi bruger de eksisterende tabeller. Navnene er kontrolleret i databasen den 1. november 2026.
+Statistikken bruger disse eksisterende tabeller og kolonner:
 
 | Tabel | Kolonner vi bruger |
 | --- | --- |
@@ -81,60 +81,8 @@ ORDER BY pokemon_count DESC, t.trainer_name, t.trainer_id;
 
 Der grupperes efter både ID og navn, så to trainers med samme navn ikke bliver slået sammen. I denne database kan en trainer kun have én tilknytning til hvert Pokédex-nummer, så antallet er forskellige Pokémon-arter.
 
-## Start projektet
+## Visning af data
 
-1. Åbn backendmappen på branchen `backend` (lille b).
-2. Brug din `.env` med oplysninger til MySQL. På en ny computer kopieres `.env.example` til `.env`, og oplysningerne udfyldes. `.env` skal ikke pushes.
-3. Start MySQL og kør dette i backendmappens terminal:
+Frontend henter statistikken fra de tre endpoints med `fetch()`. Chart.js viser antal Pokémon pr. type i et cirkeldiagram og gennemsnitlig attack pr. type i et søjlediagram. Trainers og deres antal Pokémon vises i en tabel.
 
-```bash
-npm ci
-npm start
-```
-
-`npm ci` installerer pakkerne og er kun nødvendigt ved første opstart eller efter ændringer i pakkerne. Backend kører på `http://localhost:3000`.
-
-4. Åbn frontendmappen på `Frontend` i et andet WebStorm-vindue.
-5. Højreklik på `Dashboard.html` og vælg **Open in Browser**.
-
-Backend og frontend skal være åbne i hver sin mappe, så begge kan køre samtidig. API-adressen står øverst i `Dashboard.js`.
-
-## Test i Insomnia
-
-Start backend først. Opret derefter tre requests med metoden **GET**:
-
-| Adresse | Hvad skal svaret indeholde? |
-| --- | --- |
-| `http://localhost:3000/stats/types` | Type og antal Pokémon |
-| `http://localhost:3000/stats/average-attack` | Type og gennemsnitlig attack |
-| `http://localhost:3000/stats/trainers` | Trainer-ID, navn og antal Pokémon |
-
-Tryk **Send**. Du skal få **200 OK** og en liste med data. Du skal ikke skrive noget i Body.
-
-På den nuværende database har Poison 33 Pokémon, Fighting har gennemsnitlig attack 101,88, og Ash har 5 Pokémon. Kør SQL-forespørgslerne i MySQL Workbench for at sammenligne tallene.
-
-Du kan også køre en lille kontrol fra en anden terminal i backendmappen:
-
-```bash
-npm test
-```
-
-`test-stats.js` kalder de tre endpoints og skriver OK eller FEJL. Backend skal stadig køre, og testen bruger Node.js 20 eller nyere.
-
-## Test dashboardet
-
-- Åbn siden og kontrollér de to grafer og trainer-tabellen.
-- Mens data hentes, vises en loading-besked.
-- Hvis API'et sender en tom liste (`[]`), vises en besked om, at der ikke er data.
-- Stop backend og tryk **Opdater data**. Nu skal der komme en forståelig fejlbesked.
-- Start backend igen og opdater siden. Data skal vises igen.
-
-Ved en databasefejl sender backend **500** og en kort fejlbesked. Den sender ikke adgangskoden eller den tekniske databasefejl til browseren.
-
-## Filer
-
-- `main.js` starter backend og tilføjer dashboardets endpoints.
-- `stats.js` indeholder de tre SQL-forespørgsler og endpoints.
-- `test-stats.js` kontrollerer svarene fra API'et.
-- Frontendmappen indeholder `Dashboard.html`, `Dashboard.js` og `poke.css`.
-
+Mens data hentes, vises en loading-besked. En tom liste giver en besked om, at der ikke er data. Hvis API'et eller databasen fejler, vises en forståelig fejlbesked. Siden bruger projektets eksisterende CSS og navigation.
