@@ -1,27 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="da">
 <head>
     <meta charset="UTF-8">
-    <title>Pokemon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
     <link rel="stylesheet" href="poke.css">
+    <script src="vendor/chart.umd.js" defer></script>
+    <script src="Dashboard.js" defer></script>
 </head>
-<body>
+<body class="dashboard-page">
 <header>
     <div class="container header-content">
         <div class="header-title">
-            <img src="pokebase-logo.png" alt="Pokebase" class="logo">
+            <a href="Pokebase.html">
+                <img src="pokebase-logo.png" alt="Pokebase" class="logo">
+            </a>
         </div>
-        <nav>
+        <nav aria-label="Hovednavigation">
             <a href="Pokebase.html">Home</a>
             <a href="Trainer.html">Trainer overview</a>
         </nav>
     </div>
-    <main class="container">
 </header>
+
+<main class="container dashboard-main">
+    <div class="dashboard-heading">
+        <div>
+            <h1>Dashboard</h1>
+            <p>Få overblik over Pokémon-typer, attack og trainers.</p>
+        </div>
+        <button type="button" id="refresh-dashboard" class="dashboard-refresh">Opdater data</button>
+    </div>
+
+    <div class="dashboard-grid">
+        <section class="dashboard-card" aria-labelledby="types-heading" aria-busy="true" id="types-panel">
+            <h2 id="types-heading">Antal Pokémon pr. type</h2>
+            <p>Både primær og sekundær type tæller med. En Pokémon tæller én gang pr. type, så summen kan være større end antallet af Pokémon.</p>
+            <p id="types-status" class="dashboard-status" role="status" aria-live="polite">Indlæser typer …</p>
+            <div id="types-content" class="dashboard-chart" hidden>
+                <canvas id="types-chart" role="img" aria-label="Cirkeldiagram over antal Pokémon pr. type"></canvas>
+            </div>
+        </section>
+
+        <section class="dashboard-card" aria-labelledby="attack-heading" aria-busy="true" id="attack-panel">
+            <h2 id="attack-heading">Gennemsnitlig attack pr. type</h2>
+            <p>Gennemsnittet beregnes for hver primær og sekundær type. Pokémon uden attack-værdi indgår ikke i gennemsnittet.</p>
+            <p id="attack-status" class="dashboard-status" role="status" aria-live="polite">Indlæser attack …</p>
+            <div id="attack-content" class="dashboard-chart" hidden>
+                <canvas id="attack-chart" role="img" aria-label="Søjlediagram over gennemsnitlig attack pr. Pokémon-type"></canvas>
+            </div>
+        </section>
+
+        <section class="dashboard-card dashboard-trainers" aria-labelledby="trainers-heading" aria-busy="true" id="trainers-panel">
+            <h2 id="trainers-heading">Antal Pokémon pr. trainer</h2>
+            <p>Alle trainers vises, også dem der endnu ikke har nogen Pokémon.</p>
+            <p id="trainers-status" class="dashboard-status" role="status" aria-live="polite">Indlæser trainers …</p>
+            <div id="trainers-content" class="dashboard-table-wrapper" hidden>
+                <table class="dashboard-table">
+                    <caption>Trainers og deres antal Pokémon</caption>
+                    <thead>
+                    <tr>
+                        <th scope="col">Trainer-ID</th>
+                        <th scope="col">Trainer</th>
+                        <th scope="col">Antal Pokémon</th>
+                    </tr>
+                    </thead>
+                    <tbody id="trainers-rows"></tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+    <noscript><p class="dashboard-status">Slå JavaScript til for at hente statistikkerne og vise dashboardet.</p></noscript>
+</main>
 
 <footer id="info">
     <div class="container">
-        <h2> Group/creators info</h2>
+        <h2>Group/creators info</h2>
         <div class="group">
             <ul>
                 <li>Marcus Larn Sperling</li>
@@ -31,7 +85,6 @@
             </ul>
         </div>
     </div>
-    <main class="container">
 </footer>
 </body>
 </html>
